@@ -10,32 +10,49 @@ import { HeroService } from '../hero.service';
   templateUrl: './heroes.component.html',
   styleUrls: ['./heroes.component.css']
 })
+
+// While the HeroesComponent class still works, the onSelect() method
+// and selectedHero property are no longer used.
+// It's nice to tidy up and you'll be grateful to yourself later.
+// Here's the class after pruning away the dead code.
 export class HeroesComponent implements OnInit {
+  heroes: Hero[];
 
-  selectedHero: Hero;
+  constructor(private heroService: HeroService) { }
 
-  // heroes = HEROES;
+  ngOnInit() {
+    this.getHeroes();
+  }
+
+  getHeroes(): void {
+    this.heroService.getHeroes()
+    .subscribe(heroes => this.heroes = heroes);
+  }
+}
+
+// FORMER CODE IS BELOW (REMOVE DEAD CODE STEP):
+
+// export class HeroesComponent implements OnInit {
+
+  // selectedHero: Hero;
 
   // Replace the definition of the heroes property
   // with a simple declaration.
-  heroes: Hero[];
+  // heroes: Hero[];
 
-  onSelect(hero: Hero): void {
-    this.selectedHero = hero;
-  }
+  // onSelect(hero: Hero): void {
+  //   this.selectedHero = hero;
+  // }
 
   // Add a private heroService parameter
   // of type HeroService to the constructor.
 
   // The parameter simultaneously defines a private heroService property
   // and identifies it as a HeroService injection site.
-  constructor(private heroService: HeroService) { }
+  // constructor(private heroService: HeroService) { }
 
   // Create a function to retrieve the heroes from the service.
   // The HeroService.getHeroes method used to return a Hero[].
-  // getHeroes(): void {
-  //   this.heroes = this.heroService.getHeroes();
-  // }
   // Replace the getHeroes method with this one.
   // Now it returns an Observable<Hero[]>.
 
@@ -54,10 +71,10 @@ export class HeroesComponent implements OnInit {
 
   // This asynchronous approach *will work* when the HeroService
   // requests heroes from the server.
-  getHeroes(): void {
-    this.heroService.getHeroes()
-        .subscribe(heroes => this.heroes = heroes);
-  }
+  // getHeroes(): void {
+  //   this.heroService.getHeroes()
+  //       .subscribe(heroes => this.heroes = heroes);
+  // }
 
   // While you could call getHeroes() in the constructor,
   // that's not the best practice.
@@ -71,8 +88,8 @@ export class HeroesComponent implements OnInit {
   // Instead, call getHeroes() inside the ngOnInit lifecycle hook
   // and let Angular call ngOnInit at an appropriate time
   // after constructing a HeroesComponent instance.
-  ngOnInit() {
-    this.getHeroes();
-  }
+//   ngOnInit() {
+//     this.getHeroes();
+//   }
 
-}
+// }

@@ -1,5 +1,18 @@
 <h1>{{title}}</h1>
-<app-heroes></app-heroes>
+<!-- Add a <nav> element and, within that, an anchor element that, 
+when clicked, triggers navigation to the HeroesComponent.  -->
+<nav>
+    <!-- Add a dashboard navigation link to the AppComponent shell template -->
+    <a routerLink="/dashboard">Dashboard</a>
+    <!-- Add a heroes navigation link to the AppComponent shell template -->
+    <a routerLink="/heroes">Heroes</a>
+</nav>
+<!-- <app-heroes></app-heroes> 
+    Replace the <app-heroes> element with a <router-outlet> element.
+    You removed <app-heroes> because you will only display 
+    the HeroesComponent when the user navigates to it.
+    The <router-outlet> tells the router where to display routed views. -->
+<router-outlet></router-outlet>
 <!-- Modify the AppComponent template 
 to display the generated MessagesComponent -->
 <app-messages></app-messages>

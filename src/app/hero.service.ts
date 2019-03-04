@@ -41,6 +41,16 @@ export class HeroService {
     return of(HEROES);
   }
 
+  // Like getHeroes(), getHero() has an asynchronous signature.
+  // It returns a *mock hero* as an Observable, using the RxJS of() function.
+  // You'll be able to re-implement getHero() as a real Http request
+  // without having to change the HeroDetailComponent that calls it.
+  getHero(id: number): Observable<Hero> {
+    // TODO: send the message _after_ fetching the hero
+    this.messageService.add(`HeroService: fetched hero id=${id}`);
+    return of(HEROES.find(hero => hero.id === id));
+  }
+
   // Modify the constructor with a parameter that declares
   // a private messageService property.
   // Angular will inject the singleton MessageService into that property
