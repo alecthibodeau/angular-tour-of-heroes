@@ -28,68 +28,20 @@ export class HeroesComponent implements OnInit {
     this.heroService.getHeroes()
     .subscribe(heroes => this.heroes = heroes);
   }
+
+  // In response to a click event, call the component's click handler
+  // and then clear the input field so that it's ready for another name.
+  add(name: string): void {
+    name = name.trim();
+    if (!name) { return; }
+    this.heroService.addHero({ name } as Hero)
+      .subscribe(hero => {
+        this.heroes.push(hero);
+      });
+  }
+
+  delete(hero: Hero): void {
+    this.heroes = this.heroes.filter(h => h !== hero);
+    this.heroService.deleteHero(hero).subscribe();
+  }
 }
-
-// FORMER CODE IS BELOW (REMOVE DEAD CODE STEP):
-
-// export class HeroesComponent implements OnInit {
-
-  // selectedHero: Hero;
-
-  // Replace the definition of the heroes property
-  // with a simple declaration.
-  // heroes: Hero[];
-
-  // onSelect(hero: Hero): void {
-  //   this.selectedHero = hero;
-  // }
-
-  // Add a private heroService parameter
-  // of type HeroService to the constructor.
-
-  // The parameter simultaneously defines a private heroService property
-  // and identifies it as a HeroService injection site.
-  // constructor(private heroService: HeroService) { }
-
-  // Create a function to retrieve the heroes from the service.
-  // The HeroService.getHeroes method used to return a Hero[].
-  // Replace the getHeroes method with this one.
-  // Now it returns an Observable<Hero[]>.
-
-  // The previous version assigns an array of heroes
-  // to the component's heroes property.
-  // The assignment occurs *synchronously*,
-  // as if the server could return heroes instantly
-  // or the browser could freeze the UI while it waited for the server's response.
-
-  // That *won't work* when the HeroService is actually
-  // making requests of a remote server.
-  // The new version waits for the Observable to emit the array of heroes—
-  // which could happen now or several minutes from now.
-  // Then subscribe passes the emitted array to the callback,
-  // which sets the component's heroes property.
-
-  // This asynchronous approach *will work* when the HeroService
-  // requests heroes from the server.
-  // getHeroes(): void {
-  //   this.heroService.getHeroes()
-  //       .subscribe(heroes => this.heroes = heroes);
-  // }
-
-  // While you could call getHeroes() in the constructor,
-  // that's not the best practice.
-
-  // Reserve the constructor for simple initialization
-  // such as wiring constructor parameters to properties.
-  // The constructor shouldn't do anything.
-  // It certainly shouldn't call a function that makes
-  // HTTP requests to a remote server as a real data service would.
-
-  // Instead, call getHeroes() inside the ngOnInit lifecycle hook
-  // and let Angular call ngOnInit at an appropriate time
-  // after constructing a HeroesComponent instance.
-//   ngOnInit() {
-//     this.getHeroes();
-//   }
-
-// }
